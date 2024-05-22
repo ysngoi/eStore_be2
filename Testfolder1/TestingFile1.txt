@@ -1,0 +1,6 @@
+go to git hub, create repository
+
+
+
+create folder eStore_be2
+git init

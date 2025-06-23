@@ -37,6 +37,16 @@ public class WeatherController {
         String formattedDateTime = dateFormat.format(currentDate);
         String sHourFrom = dateFormat2.format(currentDate);
         String sHourTo = dateFormat2.format(currentDate);
+        
+        if( (key!=null && key.trim().length()>0) &&
+        	(value!=null && value.trim().length()>0) &&
+        	(appid!=null && appid.trim().length()>0) 
+        )
+        {}
+        else
+        {
+        	 return "Wrong key value is passed in. No result return";
+        }	
           
 		try
 		{	
@@ -46,7 +56,6 @@ public class WeatherController {
 	        conn.connect();
 	
 	        int responsecode = conn.getResponseCode();
-	        System.out.println("ResponseCode="+responsecode);
 	        
 	        if (responsecode != 200) 
 	        {
@@ -75,17 +84,17 @@ public class WeatherController {
                 	sWeatherDescription = lstWeatherDescription.get(i);
                 } 	
                 
-                w.setkey(key);
-                w.setValue(value);
-                w.setJasonresult(inline);
-                w.setDescription(sWeatherDescription);
-                w.setCreatedDate(formattedDateTime);
-                
                 int iSuccess = 0;
-               
-                int iTotalHit = weatherService.getTotalHitPerHourRange(w.getKey(),w.getValue(),sHourFrom,sHourTo).size();
+                int iTotalHit = weatherService.getTotalHitPerHourRange(key,value,sHourFrom,sHourTo).size();
+                 
                 if(iTotalHit<5)
                 {
+                	w.setkey(key);
+                    w.setValue(value);
+                    w.setJasonresult(inline);
+                    w.setDescription(sWeatherDescription);
+                    w.setCreatedDate(formattedDateTime);
+                    
                 	iSuccess = weatherService.createWeather(w);
                 	sMessage = "Weather description is "+sWeatherDescription;
                 }	
